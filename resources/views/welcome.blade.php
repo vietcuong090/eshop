@@ -13,21 +13,17 @@
 
     <!-- Styles -->
     <style>
-        /* ! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com */
+    /* ! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com */
     </style>
     <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-        }
+    body {
+        font-family: 'Nunito', sans-serif;
+    }
     </style>
 </head>
 
 <body class="antialiased">
-    <from action="/put" menthod="post">
-        {{ csrf_field() }}
-        {{ menthos_field('PUT') }}
-        <button type="submit">submit</button>
-    </from>
+
 </body>
 
 </html>

@@ -57,3 +57,8 @@ Route::resource('orderitems', OrderItemController::class);
 Route::get('/child', function () {
     return view('child');
 });
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class, ['names' => 'admin.users']); //['names' => 'admin.users'] được sử dụng để đặt tên cho các route được tạo ra
+    Route::resource('products', App\Http\Controllers\ProductController::class, ['names' => 'admin.products']);
+});
