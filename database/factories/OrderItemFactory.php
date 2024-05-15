@@ -20,7 +20,7 @@ class OrderItemFactory extends Factory
             'product_id' => 1,
             'order_id' => 1,
             'quantity' => $this->faker->randomDigit(),
-            'price' => $this->faker->randomFloat(),
+            'price' => $this->faker->randomDigit(),
         ];
     }
 }

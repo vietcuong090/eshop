@@ -13,10 +13,12 @@ class Product extends Model
 
     public function category()
     {
+        // bảng nhiều qua bảng ít là belongsto
         return $this->belongsTo(Category::class);
     }
     public function orderItems()
     {
-        return $this->belongsTo(OrderItem::class);
+        // bảng ít qua bảng nhiều là hasmany
+        return $this->hasMany(OrderItem::class);
     }
 }

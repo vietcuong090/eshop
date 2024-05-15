@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Throwable;
 
 class ProductController extends Controller
 {
@@ -12,8 +13,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $productList = Product::all();
-        return view('products.index', ['productList' => $productList]);
+        $products = Product::paginate(8); //config pagination
+        // dd($products);
+        return view('products.index', compact('products'));
     }
 
     /**
@@ -29,7 +31,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        return Product::create($request->only(['name', 'email', 'password']));
+        //
     }
 
     /**
@@ -37,8 +39,8 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::findOrFail($id);
-        return view('products.show', ['product' => $product]);
+        $products = Product::all();
+        return view('products.index', compact('products'));
     }
 
     /**
@@ -54,7 +56,14 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        Product::findOrFail($id)->update($request);
+        //
+        // return Product::findOrFail($id)->update($request->all());
+        try {
+            // return $request->all();
+            Product::findOrFail($id)->update($request->all());
+        } catch (\Throwable $th) {
+            dd($th);
+        }
     }
 
     /**
@@ -62,6 +71,23 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        Product::findOrFail($id)->destroy();
+        return Product::findOrFail($id)->delete();
+    }
+
+    public function search(Request $request)
+    {
+        try {
+            $query = $request->input('search');
+            //    dd($query);
+            $productSearch = Product::where('name', 'LIKE', "%$query%")->get();
+            return view('products.search', compact('productSearch'));
+        } catch (Throwable $th) { //Exception
+            return $th;
+        }
+    }
+
+    public function cart()
+    {
+        return view('products.cart');
     }
 }

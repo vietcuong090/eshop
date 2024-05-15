@@ -4,6 +4,11 @@
 @if( Session::has('message'))
 <h3>{{ Session::get('message')}}</h3>
 @endif
+<div class="row">
+    <div class="col-lg3">
+        <a href="{{ route('admin.users.create') }}" class="btn btn-primary">Create new</a>
+    </div>
+</div>
 <div class="alert alert-success">
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
@@ -14,7 +19,7 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>ID</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Edit</th>
@@ -24,7 +29,7 @@
                         <tbody>
                             @foreach ($userList as $user)
                             <tr>
-                                <td>#</td>
+                                <td>{{ $user->id }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td class="text-danger"> {{ $user->email }}
                                     <i class="mdi mdi-arrow-down"></i>

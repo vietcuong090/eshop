@@ -12,6 +12,10 @@ class Category extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class);
+        // select * form products where category_id=id
+        return $this->hasMany(Product::class); // (Product::class) giúp Eloquent biết rằng mối quan hệ này sẽ liên kết với bảng nào.
+        // return $this->hasMany(Product::class),'categories_id'; categories_id nếu đặt ko đúng quy chuẩn thì
+        // phải chỉ rỏ khoá ngoại 
+        // hasMany là khóa ngoại, số ít
     }
 }

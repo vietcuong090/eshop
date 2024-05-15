@@ -17,7 +17,9 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
+            // name Thường được sử dụng để đặt tên cho một thực thể hoặc đối tượng.
             'name' => $this->faker->name(),
+            // desc Thường được sử dụng để cung cấp một mô tả chi tiết hơn về một thực thể hoặc đối tượng.
             'desc' => $this->faker->realText(),
         ];
     }

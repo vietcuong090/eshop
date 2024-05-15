@@ -15,6 +15,7 @@ class UserController extends Controller
     public function index()
     {
         $userList = User::all();
+        // truyen parmeter ['userList' => $userList]
         return view('admin.users.index', ['userList' => $userList]);
     }
 
@@ -23,7 +24,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.users.create');
     }
 
     /**
@@ -31,7 +32,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = User::create($request->only([
+            'name', 'email', 'password'
+        ]));
+        $message = "Created successfull!";
+        if ($user === null) {
+            $message = "Creation failed!";
+        };
+        return redirect()->route('admin.users.index')->with('message', $message);
     }
 
     /**
@@ -47,7 +55,8 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -55,7 +64,15 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $bool = $user->update($request->only([
+            'name', 'email', 'password'
+        ]));
+        $message = "Success updated";
+        if (!$bool) {
+            $message = "Update failed";
+        }
+        return redirect()->route('admin.users.index')->with('message', $message);
     }
 
     /**
@@ -64,9 +81,9 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         // user
-        $message = "Success full deleted"; //Xác định một biến $message với giá trị mặc định là "Success full deleted"
+        $message = "Success deleted"; //Xác định một biến $message với giá trị mặc định là "Success full deleted"
         if (!User::destroy($id)) { //Sử dụng phương thức User::destroy($id) để xóa một người dùng từ cơ sở dữ liệu theo $id cung cấp
-            $message = "Success full faiiled";
+            $message = "Delete faiiled";
         }
         //redirect()->route('admin.user.index') để chuyển hướng người dùng đến một route có tên là 'admin.user.index'
         return redirect()->route('admin.users.index')->with('message', $message);

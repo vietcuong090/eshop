@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class RegisterController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Category::all();
+        return view('home.register');
     }
 
     /**
@@ -28,7 +28,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        return Category::create($request->only(['name', 'email', 'password']));
+        User::create($request->only([
+            'name',
+            'email',
+            'password',
+            'role',
+        ]));
+        return view('home.register');
     }
 
     /**
@@ -36,7 +42,7 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        return Category::findOrFail($id);
+        //
     }
 
     /**
@@ -52,7 +58,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        Category::findOrFail($id)->update($request);
+        //
     }
 
     /**
@@ -60,6 +66,6 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        Category::findOrFail($id)->destroy();
+        //
     }
 }

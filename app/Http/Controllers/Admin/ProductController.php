@@ -13,8 +13,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $productList = Product::all();
-        return view('admin.products.index', ['productList' => $productList]);
+        $products = Product::all();
+        return view("admin.product_admin.index", compact('products'));
     }
 
     /**
@@ -22,7 +22,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.product_admin.create');
     }
 
     /**
@@ -30,7 +30,16 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->only([
+            'img', 'name', 'description', 'price', 'quantity', 'category_id'
+        ]);
+        $data['img'] = "../images/" . $request->img;
+        $products = Product::create($data);
+        $message = "Created new successfully!";
+        if (!$products) {
+            $message = "Failed to create new!";
+        }
+        return redirect()->route('admin.products.index')->with('message', $message);
     }
 
     /**
@@ -46,7 +55,8 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        return view("admin.product_admin.edit", compact('product'));
     }
 
     /**
@@ -54,7 +64,16 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->only([
+            'img', 'name', 'description', 'price', 'quantity', 'category_id'
+        ]);
+        $data['img'] = "../images/" . $request->img;
+        $products = Product::create($data);
+        $message = "Created new successfully!";
+        if (!$products) {
+            $message = "Failed to create new!";
+        }
+        return redirect()->route('admin.products.index')->with('message', $message);
     }
 
     /**
@@ -63,9 +82,9 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         // product
-        $message = "Success full deleted";
+        $message = "Successfull deleted";
         if (!Product::destroy($id)) {
-            $message = "Success full faiiled";
+            $message = "Delete faiiled";
         }
         return redirect()->route('admin.product.index')->with('message', $message);
     }

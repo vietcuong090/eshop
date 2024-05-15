@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\OrderItemController;
+use App\Helper\Cart;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\CardController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\RigesterController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\UserController;
-use App\Models\Category;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,43 +24,43 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/home', function () {
-    return 'Page Home';
-})->name('home');
-Route::get('/shop', function () {
-    return 'Page shop';
-})->middleware('checkAge');
-Route::get('/about', function () {
-    return 'Page about';
-});
-Route::get('/contact', function () {
-    return 'Method post';
-});
-Route::get('/put', function () {
-    return 'Method put';
-});
-Route::get('/put', function () {
-    return 'Method put';
-});
-Route::prefix('admin')->group(function () {
-    Route::get('posts/{post}/comments/{comment}', function ($postID, $commentId) {
-        return "postId: $ postId - commentId: $commentId";
-    });
-    Route::get('user/{name?}', function ($name = 'John') {
-        return $name;
-    });
-});
-Route::resource('users', UserController::class);
-Route::resource('categories', CategoryController::class);
-Route::resource('products', ProductController::class);
-Route::resource('orders', OrderController::class);
-Route::resource('orderitems', OrderItemController::class);
 
-Route::get('/child', function () {
-    return view('child');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+require __DIR__ . '/auth.php';
+
+//  controller
+Route::resource('/', HomeController::class, ['names' => 'home']);
+Route::get('/search', [HomeController::class, 'search'])->name('search-home');
+Route::get('/page-show/{id}', [HomeController::class, 'show'])->name('home-show-page');
+Route::resource('/products', ProductController::class, ['names' => 'product-index']);
+Route::resource('/about', AboutController::class, ['names' => 'about-index']);
+Route::resource('/contact', ContactController::class, ['names' => 'contact-index']);
+// Route::get('/rigester', [RigesterController::class, ['name' => 'home.register']]);
+// phan trang
+// Route::get('/phan-trang', HomeController::class, ['name' => 'phantran-home']);
+
+// cart
+Route::post('/add-to-card/{id}', [CardController::class, 'addToCard'])->name('add-to-card');
+Route::get('/page-card', [CardController::class, 'showCard'])->name('page-card');
+Route::delete('/delete-card/{id}', [CardController::class, 'deleteCard'])->name('delete-card');
+Route::put('/update-card/{id}', [CardController::class, 'updateCard'])->name('update-card');
+
+
+
+// router admin
 Route::group(['prefix' => 'admin'], function () {
-    Route::resource('users', App\Http\Controllers\Admin\UserController::class, ['names' => 'admin.users']); //['names' => 'admin.users'] được sử dụng để đặt tên cho các route được tạo ra
-    Route::resource('products', App\Http\Controllers\ProductController::class, ['names' => 'admin.products']);
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class, ['names' => 'admin.users']);
+    Route::resource('products', App\Http\Controllers\Admin\ProductController::class, ['names' => 'admin.products']);
+    Route::resource('orders', App\Http\Controllers\admin\OrderController::class, ['names' => 'admin.orders']);
+    Route::resource('order-items', App\Http\Controllers\admin\OrderItemController::class, ['names' => 'admin.order-items']);
+    Route::resource('categoies', App\Http\Controllers\admin\CategoryController::class, ['names' => 'admin.categories']);
 });

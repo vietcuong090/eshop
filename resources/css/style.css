@@ -1901,3 +1901,8 @@ textarea:focus, input:focus, select:focus, .bootstrap-select .dropdown-toggle:fo
 .vivid-yellow-bg{
 	background: #fdcb03;
 }
+#search input {
+    width: 80%;
+    border-radius: 50px;
+    border: none;
+}

@@ -9,17 +9,28 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="">
+            <a class="nav-link" href="{{ route('admin.products.index') }}">
                 <i class="menu-icon typcn typcn-th-large-outline"></i>
                 <span class="menu-title">Products</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="">
+            <a class="nav-link" href="{{ route('admin.orders.index')}}">
                 <i class="menu-icon typcn typcn-bell"></i>
                 <span class="menu-title">Orders</span>
             </a>
         </li>
-
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.order-items.index')}}">
+                <i class="menu-icon typcn typcn-bell"></i>
+                <span class="menu-title">OrderItems</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.categories.index')}}">
+                <i class="menu-icon typcn typcn-bell"></i>
+                <span class="menu-title">Categories</span>
+            </a>
+        </li>
     </ul>
 </nav>

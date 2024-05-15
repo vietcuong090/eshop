@@ -17,8 +17,8 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'code' => $this->faker->uuid(),
-            'status' => 0,
+            'code' => fake()->randomDigit(),
+            'status' => fake()->word(),
             'user_id' => 1,
         ];
     }

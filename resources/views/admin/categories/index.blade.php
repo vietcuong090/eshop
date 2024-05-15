@@ -3,6 +3,9 @@
 @section('content')
 
 <div class="alert alert-success">
+    @if(Session::has('message'))
+    <h3>{{Session::get('message')}}</h3>
+    @endif
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
@@ -14,23 +17,24 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Email</th>
+                                <th>Desc</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($productList as $product)
+                            @foreach ($categories as $category)
                             <tr>
-                                <td>#</td>
-                                <td>{{ $product->name }}</td>
-                                <td class="text-danger"> {{ $product->email }} <i class="mdi mdi-arrow-down"></i>
+                                <th scope="row"> {{ $loop->index + 1 }}</th>
+                                <td>{{ $category->name}}</td>
+                                <td class=" text-bg-primary text-wrap"> {{ $category->desc }} <i class="mdi mdi-arrow-down"></i>
                                 </td>
                                 <td>
-                                    <a class="badge badge-danger" href="{{ route('admin.products.edit', $product->id) }}">Edit</a>
+                                    <a class="badge badge-danger" href="{{ route('admin.categories.edit', $category->id) }}">Edit</a>
                                 </td>
                                 <td>
-                                    <form action="{{ route('admin.products.destroy', $product->id) }}" method="post">
+                                    <form action="{{ route('admin.categories.destroy', $category->id) }}" method="post">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                         <button type="submit">Delete</button>
